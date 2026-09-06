@@ -24,11 +24,12 @@ function useHashRoute() {
 
 function Header() {
   return <header className="site-header">
-    <a className="wordmark" href="#/" aria-label="Sulaiman home">SULAIMAN<span className="wordmark-sub">Hardware & Product Development Engineer</span></a>
-    <nav aria-label="Main navigation">
-      <a href="#/work">Work</a>
-      <a href="#/about">About</a>
-      <a href="#/contact">Contact</a>
+    <nav className="nav" aria-label="Main navigation">
+      <a className="mark-link" href="#/" aria-label="Sulaiman home"><svg className="nav-mark" viewBox="0 0 64 48" aria-hidden="true"><path d="M8 40V8l12 22L32 8v32M40 13c3-4 8-6 13-4 4 1 6 4 6 7 0 4-3 6-8 7l-5 1c-5 1-7 4-7 8 0 5 4 8 10 8 5 0 9-2 12-5" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" /></svg></a>
+      <a className="nav-link" href="#/work">Projects</a>
+      <a className="nav-link" href="#about">About</a>
+      <a className="nav-link" href="#experience">Experience</a>
+      <a className="nav-link nav-contact" href="#contact">Contact</a>
     </nav>
   </header>;
 }
@@ -86,7 +87,7 @@ function Home({ projects }) {
     </section>
     <section className="page-section work-preview" id="work"><SectionHeading eyebrow="02 / Selected work" title="Built in the real world." /><ProjectGallery projects={visible} /><a className="text-link section-link" href="#/work">View all work <span>↗</span></a></section>
     <section className="dark-section"><div className="page-section"><SectionHeading eyebrow="03 / Capabilities" title="From first circuit to field test." /><div className="capability-grid">{capabilities.map(([title, ...items]) => <div className="capability" key={title}><h3>{title}</h3>{items.map((item) => <p key={item}>{item}</p>)}</div>)}</div></div></section>
-    <About /><Contact />
+    <About /><Experience /><Contact />
   </>;
 }
 
@@ -94,8 +95,13 @@ function About() {
   return <section className="page-section split-section" id="about"><SectionHeading eyebrow="04 / About" title="Engineering is a loop." /><div className="split-copy"><p className="large-copy">I work across electronics, embedded systems and physical product development, taking ideas from early prototypes through PCB design, firmware, mechanical integration, debugging and validation.</p><p>Every iteration is an opportunity to measure what happened, understand why, and build the next version with more confidence.</p></div></section>;
 }
 
+function Experience() {
+  const stages = ['Requirements', 'System architecture', 'Electronics + PCB', 'Firmware + mechanics', 'Debugging + validation', 'Iteration to product'];
+  return <section className="page-section experience-section" id="experience"><SectionHeading eyebrow="05 / Experience" title="The way I build." /><div className="experience-track">{stages.map((stage, index) => <div className="experience-step" key={stage}><span>0{index + 1}</span><strong>{stage}</strong></div>)}</div></section>;
+}
+
 function Contact() {
-  return <section className="contact-section" id="contact"><div className="contact-panel"><div className="contact-copy"><SectionHeading eyebrow="05 / Contact" title="Ready to build something real?" /><p>Have a hardware problem, product idea or engineering project? Let’s take it from first requirements to a tested prototype.</p><div className="contact-links"><a href="mailto:hello@example.com">Email <span>↗</span></a><a href="https://github.com/sulaiman-nsl-founder" target="_blank" rel="noreferrer">GitHub <span>↗</span></a></div></div><form className="contact-form" action="mailto:hello@example.com" method="post" encType="text/plain"><div className="form-grid"><label>Name<input id="contact-name" name="name" type="text" placeholder="Your name" required /></label><label>Email<input id="contact-email" name="email" type="email" placeholder="you@example.com" required /></label></div><label>Message<textarea id="contact-message" name="message" placeholder="What would you like to build?" rows="5" required /></label><button type="submit">Send message <span>↗</span></button></form></div></section>;
+  return <section className="contact-section" id="contact"><div className="contact-panel"><div className="contact-copy"><SectionHeading eyebrow="06 / Contact" title="Ready to build something real?" /><p>Have a hardware problem, product idea or engineering project? Let’s take it from first requirements to a tested prototype.</p><div className="contact-links"><a href="mailto:hello@example.com">Email <span>↗</span></a><a href="https://github.com/sulaiman-nsl-founder" target="_blank" rel="noreferrer">GitHub <span>↗</span></a></div></div><form className="contact-form" action="mailto:hello@example.com" method="post" encType="text/plain"><div className="form-grid"><label>Name<input id="contact-name" name="name" type="text" placeholder="Your name" required /></label><label>Email<input id="contact-email" name="email" type="email" placeholder="you@example.com" required /></label></div><label>Message<textarea id="contact-message" name="message" placeholder="What would you like to build?" rows="5" required /></label><button type="submit">Send message <span>↗</span></button></form></div></section>;
 }
 
 function Work({ projects }) {
