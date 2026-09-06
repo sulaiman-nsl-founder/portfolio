@@ -37,6 +37,31 @@ function SectionHeading({ eyebrow, title }) {
   return <div className="section-heading"><span>{eyebrow}</span><h2>{title}</h2></div>;
 }
 
+function BlueprintGraphic() {
+  const [activeLabel, setActiveLabel] = useState(null);
+  const labels = [
+    ['power', 'POWER PATH', '22% 19%'],
+    ['control', 'CONTROL LOOP', '67% 33%'],
+    ['test', 'TEST POINT', '26% 73%'],
+  ];
+  return <div className="blueprint-stage" aria-label="Animated product system blueprint" role="img">
+    <svg className="blueprint-lines" viewBox="0 0 900 360" aria-hidden="true">
+      <defs><pattern id="blueprint-grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M 30 0 L 0 0 0 30" fill="none" stroke="currentColor" strokeOpacity=".12" strokeWidth="1" /></pattern></defs>
+      <rect width="900" height="360" fill="url(#blueprint-grid)" />
+      <path className="trace trace-a" d="M70 270H220V210H355V125H490V185H650V85H820" />
+      <path className="trace trace-b" d="M110 70H280V145H410V275H580V220H790" />
+      <path className="trace trace-c" d="M450 40V125M450 275V320M650 85V35" />
+      <rect className="system-board" x="355" y="125" width="190" height="150" rx="2" />
+      <rect className="system-core" x="405" y="165" width="90" height="70" rx="1" />
+      <path className="system-detail" d="M380 150h25m-25 20h25m100-20h25m-25 20h25M380 250h25m-25-20h25m100 20h25m-25-20h25" />
+      <circle className="target target-one" cx="220" cy="210" r="7" /><circle className="target target-two" cx="650" cy="85" r="7" /><circle className="target target-three" cx="450" cy="275" r="7" />
+    </svg>
+    {labels.map(([id, title, position]) => <button className={`blueprint-label ${activeLabel === id ? 'is-active' : ''}`} key={id} style={{ left: position.split(' ')[0], top: position.split(' ')[1] }} onClick={() => setActiveLabel(activeLabel === id ? null : id)}><span className="label-dot" />{title}<span className="label-index">0{id === 'power' ? 1 : id === 'control' ? 2 : 3}</span></button>)}
+    <span className="blueprint-caption">FIG. 01 / PRODUCT SYSTEM STUDY</span>
+    <span className="blueprint-measure measure-one">REV. 03</span><span className="blueprint-measure measure-two">24V / 3A</span>
+  </div>;
+}
+
 function ProjectTile({ project }) {
   return <a className="project-tile" href={`#/work/${project.slug}`}>
     <div className="project-image-wrap"><img src={project.heroImage} alt={`${project.title} project`} loading="lazy" onError={(event) => { event.currentTarget.src = FALLBACK_IMAGE; }} /></div>
@@ -56,6 +81,7 @@ function Home({ projects }) {
     <section className="hero page-section" id="top">
       <p className="eyebrow">01 / Engineering practice</p>
       <h1>Hardware &amp; Product<br />Development Engineer</h1>
+      <BlueprintGraphic />
       <div className="hero-bottom"><p className="hero-statement">I design, prototype, debug and build connected physical products.</p><div className="hero-actions"><a className="button button-dark" href="#/work">View work <span>↗</span></a><a className="text-link" href="#/about">About me <span>↗</span></a></div></div>
     </section>
     <section className="page-section work-preview" id="work"><SectionHeading eyebrow="02 / Selected work" title="Built in the real world." /><ProjectGallery projects={visible} /><a className="text-link section-link" href="#/work">View all work <span>↗</span></a></section>
