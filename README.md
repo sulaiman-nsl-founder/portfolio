@@ -8,8 +8,10 @@ Hardware & Product Development Engineer portfolio.
 - Monochrome editorial design system
 - Responsive homepage, work index, and hash-routed project detail pages
 - Public GitHub repository discovery for `sulaiman-nsl-founder`
+- Separated GitHub discovery and project normalization data layer
 - `portfolio/hero.*` image preference with graceful fallback
 - Featured projects via the `portfolio-featured` GitHub topic
+- Optional LinkedIn project links via repository homepage metadata
 - Natural-aspect-ratio masonry gallery
 - No private GitHub credentials required or exposed
 

@@ -1,10 +1,7 @@
 import React, { StrictMode, useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
-
-const GITHUB_USERNAME = 'sulaiman-nsl-founder';
-const FEATURED_TOPIC = 'portfolio-featured';
-const FALLBACK_IMAGE = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600"%3E%3Crect width="900" height="600" fill="%23171717"/%3E%3Cpath d="M80 460h740M220 460V180h460v280M300 180v-70h300v70M390 250h120v90H390z" fill="none" stroke="%23fff" stroke-width="4"/%3E%3Ctext x="80" y="530" fill="%23fff" font-family="Arial" font-size="24" letter-spacing="4"%3EENGINEERING PROJECT%3C/text%3E%3C/svg%3E';
+import { discoverProjects, FALLBACK_IMAGE, readableTopic } from './data/github';
 
 const capabilities = [
   ['Hardware', 'Schematic Design', 'PCB Design', 'Power Electronics', 'Sensors', 'Hardware Bring-up'],
@@ -14,64 +11,6 @@ const capabilities = [
   ['Debugging', 'Oscilloscope', 'Logic Analyzer', 'Multimeter', 'Root-Cause Analysis', 'Validation'],
 ];
 
-function readableTopic(topic) {
-  return topic.replace(/-/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
-}
-
-function parseReadme(readme) {
-  if (!readme) return [];
-  return readme
-    .split(/^##?\s+/m)
-    .map((section) => {
-      const [heading, ...body] = section.split('\n');
-      return { heading: heading?.replace(/[#*_]/g, '').trim(), body: body.join('\n').trim() };
-    })
-    .filter((section) => section.heading && section.body)
-    .slice(0, 10);
-}
-
-async function githubJson(url) {
-  const response = await fetch(url, { headers: { Accept: 'application/vnd.github+json' } });
-  if (!response.ok) throw new Error(`GitHub request failed: ${response.status}`);
-  return response.json();
-}
-
-async function loadProjects() {
-  const repositories = await githubJson(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`);
-  const publicRepos = repositories.filter((repo) => !repo.fork && !repo.archived);
-  return Promise.all(publicRepos.map(async (repo) => {
-    const topics = repo.topics || [];
-    let readme = '';
-    let gallery = [];
-    try {
-      const [readmeResponse, contents] = await Promise.all([
-        githubJson(`https://api.github.com/repos/${GITHUB_USERNAME}/${repo.name}/readme`),
-        githubJson(`https://api.github.com/repos/${GITHUB_USERNAME}/${repo.name}/contents/portfolio`),
-      ]);
-      readme = readmeResponse.content ? atob(readmeResponse.content.replace(/\n/g, '')) : '';
-      gallery = Array.isArray(contents)
-        ? contents.filter((item) => item.type === 'file' && /\.(jpe?g|png|webp|gif)$/i.test(item.name)).map((item) => item.download_url)
-        : [];
-    } catch {
-      // Individual repository enrichment is optional; the repository still renders.
-    }
-    const heroImage = gallery.find((image) => /hero\.(jpe?g|png|webp|gif)$/i.test(image)) || gallery[0] || FALLBACK_IMAGE;
-    return {
-      id: repo.id,
-      slug: repo.name.toLowerCase(),
-      title: repo.name.replace(/[-_]/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase()),
-      description: repo.description || 'A hardware and product development project.',
-      topics: topics.filter((topic) => topic !== FEATURED_TOPIC),
-      featured: topics.includes(FEATURED_TOPIC),
-      updatedAt: repo.updated_at,
-      githubUrl: repo.html_url,
-      heroImage,
-      gallery: gallery.length ? gallery : [heroImage],
-      readme,
-      sections: parseReadme(readme),
-    };
-  }));
-}
 
 function useHashRoute() {
   const [route, setRoute] = useState(window.location.hash || '#/');
@@ -139,14 +78,14 @@ function Work({ projects }) {
 
 function ProjectDetail({ project }) {
   if (!project) return <main className="page-section inner-page"><p className="eyebrow">404 / Not found</p><h1>Project unavailable.</h1><a className="text-link" href="#/work">Return to work <span>↗</span></a></main>;
-  return <main className="project-detail"><div className="page-section"><a className="back-link" href="#/work">← Back to work</a><div className="detail-intro"><p className="eyebrow">Project / {project.topics[0] ? readableTopic(project.topics[0]) : 'Engineering'}</p><h1>{project.title}</h1><p className="detail-summary">{project.description}</p><a className="text-link" href={project.githubUrl} target="_blank" rel="noreferrer">View on GitHub <span>↗</span></a></div><img className="detail-hero" src={project.heroImage} alt={`${project.title} hero`} onError={(event) => { event.currentTarget.src = FALLBACK_IMAGE; }} /><div className="detail-layout"><aside><p className="eyebrow">Topics</p><div className="topic-list">{project.topics.map((topic) => <span key={topic}>{readableTopic(topic)}</span>)}</div></aside><article><h2>Engineering notes</h2>{project.sections.length ? project.sections.map((section) => <section className="readme-section" key={section.heading}><h3>{section.heading}</h3><p>{section.body}</p></section>) : <p>This project is ready for a detailed engineering README. Document the problem, requirements, design decisions, debugging process, testing and results in the repository to build out this case study.</p>}</article></div></div></main>;
+  return <main className="project-detail"><div className="page-section"><a className="back-link" href="#/work">← Back to work</a><div className="detail-intro"><p className="eyebrow">Project / {project.topics[0] ? readableTopic(project.topics[0]) : 'Engineering'}</p><h1>{project.title}</h1><p className="detail-summary">{project.description}</p><div className="detail-links"><a className="text-link" href={project.githubUrl} target="_blank" rel="noreferrer">View on GitHub <span>↗</span></a>{project.linkedinUrl && <a className="text-link" href={project.linkedinUrl} target="_blank" rel="noreferrer">View on LinkedIn <span>↗</span></a>}</div></div><img className="detail-hero" src={project.heroImage} alt={`${project.title} hero`} onError={(event) => { event.currentTarget.src = FALLBACK_IMAGE; }} /><div className="detail-layout"><aside><p className="eyebrow">Project metadata</p><p className="metadata-line">{project.year || 'Undated'} · {project.status}</p><div className="topic-list">{project.topics.map((topic) => <span key={topic}>{readableTopic(topic)}</span>)}</div></aside><article><h2>Engineering notes</h2>{project.sections.length ? project.sections.map((section) => <section className="readme-section" key={section.heading}><h3>{section.heading}</h3><p>{section.body}</p></section>) : <p>This project is ready for a detailed engineering README. Document the problem, requirements, design decisions, debugging process, testing and results in the repository to build out this case study.</p>}</article></div></div></main>;
 }
 
 function App() {
   const route = useHashRoute();
   const [projects, setProjects] = useState([]);
   const [status, setStatus] = useState('loading');
-  useEffect(() => { loadProjects().then((items) => { setProjects(items.sort((a, b) => Number(b.featured) - Number(a.featured) || new Date(b.updatedAt) - new Date(a.updatedAt))); setStatus('ready'); }).catch(() => setStatus('error')); }, []);
+  useEffect(() => { discoverProjects().then((items) => { setProjects(items); setStatus('ready'); }).catch(() => setStatus('error')); }, []);
   const currentSlug = route.startsWith('#/work/') ? route.slice('#/work/'.length) : null;
   const currentProject = useMemo(() => projects.find((project) => project.slug === currentSlug), [projects, currentSlug]);
   const page = currentSlug ? <ProjectDetail project={currentProject} /> : route === '#/work' ? <Work projects={projects} /> : <Home projects={projects} />;
