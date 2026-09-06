@@ -4,11 +4,18 @@ import './styles.css';
 import { discoverProjects, FALLBACK_IMAGE, readableTopic } from './data/github';
 
 const capabilities = [
-  ['Hardware', 'Schematic Design', 'PCB Design', 'Power Electronics', 'Sensors', 'Hardware Bring-up'],
-  ['Embedded', 'ESP32', 'STM32', 'Embedded C/C++', 'FreeRTOS', 'Peripheral Integration'],
-  ['Communication', 'UART', 'I2C', 'SPI', 'CAN', 'RS485 · MQTT · BLE'],
-  ['Product', 'CAD', '3D Printing', 'Enclosures', 'Rapid Prototyping', 'DFM · DFT'],
-  ['Debugging', 'Oscilloscope', 'Logic Analyzer', 'Multimeter', 'Root-Cause Analysis', 'Validation'],
+  ['Hardware', 'KiCad PCB Design', 'Schematic Design', 'Component Selection', 'BOM Preparation', 'Power Management', 'Board Bring-up'],
+  ['Embedded', 'ESP32 · ESP32-S3', 'STM32', 'Nordic nRF54L15', 'Embedded C/C++', 'Zephyr RTOS', 'Firmware Debugging'],
+  ['Connectivity', 'I2C · SPI · UART', 'GPIO · PWM · ADC', 'BLE · Wi-Fi', 'MQTT · ESP-NOW', 'Sensor Interfaces', 'Motor Drivers'],
+  ['Product', 'Fusion 360', 'FDM 3D Printing', 'Enclosures + Fixtures', 'Klipper', 'Prototype Assembly', 'Mechanical Integration'],
+  ['Validation', 'SMD Soldering', 'Hardware Debugging', 'Functional Testing', 'Battery Systems', 'Actuator Interfaces', 'Iterative Prototyping'],
+];
+
+const experienceItems = [
+  { role: 'IoT Junior Engineer / R&D', company: 'Cavin Infotech', period: 'Oct 2025 - Present', location: 'Chennai, Tamil Nadu', highlights: ['Develop IoT product prototypes with ESP32, STM32 and Nordic microcontrollers.', 'Integrate sensors, displays, wireless modules and batteries into functional hardware.', 'Perform bring-up, board-level debugging, functional testing and firmware development.', 'Developed Smart Collar BLE functionality and optimized a connected TFT display prototype.'] },
+  { role: 'Product Developer / R&D', company: 'Tarcin Robotic LLP', period: '7 months', location: 'Tamil Nadu', highlights: ['Developed IoT and embedded prototypes for robotics and product-development applications.', 'Integrated sensors, actuators, displays and communication modules.', 'Designed and fabricated mechanical prototypes with Fusion 360 and FDM 3D printing.'] },
+  { role: 'R&D Intern', company: 'RasoiRobotics Pvt. Ltd.', period: '5 months', location: 'Tamil Nadu', highlights: ['Worked on automation and robotics R&D projects involving controllers, sensors and data acquisition.', 'Performed sensor integration, hardware testing and hardware-software troubleshooting.', 'Assisted with PCB development and testing during prototype development.'] },
+  { role: 'Part-Time Project Engineer', company: 'Hashind Solutions', period: '1 year', location: 'India', highlights: ['Built embedded and robotics projects using microcontrollers, sensors and wireless communication.', 'Trained 2,000+ students in robotics and embedded systems through hands-on projects.', 'Supported WRO teams, with two teams reaching state finals and one advancing internationally.'] },
 ];
 
 
@@ -25,7 +32,7 @@ function useHashRoute() {
 function Header() {
   return <header className="site-header">
     <nav className="nav" aria-label="Main navigation">
-      <a className="mark-link" href="#/" aria-label="Sulaiman home"><svg className="nav-mark" viewBox="0 0 64 48" aria-hidden="true"><path d="M8 40V8l12 22L32 8v32M40 13c3-4 8-6 13-4 4 1 6 4 6 7 0 4-3 6-8 7l-5 1c-5 1-7 4-7 8 0 5 4 8 10 8 5 0 9-2 12-5" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" /></svg></a>
+      <a className="mark-link" href="#/" aria-label="Mohamed Sulaiman home"><svg className="nav-mark" viewBox="0 0 64 48" aria-hidden="true"><path d="M8 40V8l12 22L32 8v32M40 13c3-4 8-6 13-4 4 1 6 4 6 7 0 4-3 6-8 7l-5 1c-5 1-7 4-7 8 0 5 4 8 10 8 5 0 9-2 12-5" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" /></svg></a>
       <a className="nav-link" href="#/work">Projects</a>
       <a className="nav-link" href="#about">About</a>
       <a className="nav-link" href="#experience">Experience</a>
@@ -81,9 +88,9 @@ function Home({ projects }) {
   return <>
     <section className="hero page-section" id="top">
       <p className="eyebrow">01 / Engineering practice</p>
-      <h1><span className="hero-greeting">Hello, I’m</span><span className="hero-name">Sulaiman</span><span className="hero-role">Hardware &amp; Product Development Engineer</span></h1>
+      <h1><span className="hero-greeting">Hello, I’m</span><span className="hero-name">Mohamed Sulaiman</span><span className="hero-role">Hardware Design Engineer</span></h1>
       <BlueprintGraphic />
-      <div className="hero-bottom"><p className="hero-statement">I design, prototype, debug and build connected physical products.</p><div className="hero-actions"><a className="button button-dark" href="#/work">View work <span>↗</span></a><a className="text-link" href="#/about">About me <span>↗</span></a></div></div>
+      <div className="hero-bottom"><p className="hero-statement">I develop electronics hardware, embedded systems and connected product prototypes from requirements through testing.</p><div className="hero-actions"><a className="button button-dark" href="#/work">View work <span>↗</span></a><a className="text-link" href="#about">About me <span>↗</span></a></div></div>
     </section>
     <section className="page-section work-preview" id="work"><SectionHeading eyebrow="02 / Selected work" title="Built in the real world." /><ProjectGallery projects={visible} /><a className="text-link section-link" href="#/work">View all work <span>↗</span></a></section>
     <section className="dark-section"><div className="page-section"><SectionHeading eyebrow="03 / Capabilities" title="From first circuit to field test." /><div className="capability-grid">{capabilities.map(([title, ...items]) => <div className="capability" key={title}><h3>{title}</h3>{items.map((item) => <p key={item}>{item}</p>)}</div>)}</div></div></section>
@@ -92,16 +99,15 @@ function Home({ projects }) {
 }
 
 function About() {
-  return <section className="page-section split-section" id="about"><SectionHeading eyebrow="04 / About" title="Engineering is a loop." /><div className="split-copy"><p className="large-copy">I work across electronics, embedded systems and physical product development, taking ideas from early prototypes through PCB design, firmware, mechanical integration, debugging and validation.</p><p>Every iteration is an opportunity to measure what happened, understand why, and build the next version with more confidence.</p></div></section>;
+  return <section className="page-section split-section" id="about"><SectionHeading eyebrow="04 / About" title="Engineering is a loop." /><div className="split-copy"><p className="large-copy">Electronics and Communication Engineer focused on hardware development, PCB prototyping, embedded systems, IoT products and rapid prototyping.</p><p>I work across KiCad PCB design, component selection, BOM preparation, sensor integration, hardware bring-up, board-level debugging, power management and functional testing.</p><div className="credential-row"><span>B.E. Electronics &amp; Communication Engineering</span><span>SSM Institute of Engineering and Technology · 2021 - 2025</span><span>English · Tamil</span></div></div></section>;
 }
 
 function Experience() {
-  const stages = ['Requirements', 'System architecture', 'Electronics + PCB', 'Firmware + mechanics', 'Debugging + validation', 'Iteration to product'];
-  return <section className="page-section experience-section" id="experience"><SectionHeading eyebrow="05 / Experience" title="The way I build." /><div className="experience-track">{stages.map((stage, index) => <div className="experience-step" key={stage}><span>0{index + 1}</span><strong>{stage}</strong></div>)}</div></section>;
+  return <section className="page-section experience-section" id="experience"><SectionHeading eyebrow="05 / Experience" title="Hardware, firmware and product R&amp;D." /><div className="career-list">{experienceItems.map((item) => <article className="career-item" key={`${item.company}-${item.role}`}><div className="career-meta"><span>{item.period}</span><span>{item.location}</span></div><div><h3>{item.role} · {item.company}</h3><ul>{item.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}</ul></div></article>)}</div></section>;
 }
 
 function Contact() {
-  return <section className="contact-section" id="contact"><div className="contact-panel"><div className="contact-copy"><SectionHeading eyebrow="06 / Contact" title="Ready to build something real?" /><p>Have a hardware problem, product idea or engineering project? Let’s take it from first requirements to a tested prototype.</p><div className="contact-links"><a href="mailto:hello@example.com">Email <span>↗</span></a><a href="https://github.com/sulaiman-nsl-founder" target="_blank" rel="noreferrer">GitHub <span>↗</span></a></div></div><form className="contact-form" action="mailto:hello@example.com" method="post" encType="text/plain"><div className="form-grid"><label>Name<input id="contact-name" name="name" type="text" placeholder="Your name" required /></label><label>Email<input id="contact-email" name="email" type="email" placeholder="you@example.com" required /></label></div><label>Message<textarea id="contact-message" name="message" placeholder="What would you like to build?" rows="5" required /></label><button type="submit">Send message <span>↗</span></button></form></div></section>;
+  return <section className="contact-section" id="contact"><div className="contact-panel"><div className="contact-copy"><SectionHeading eyebrow="06 / Contact" title="Ready to build something real?" /><p>Have a hardware problem, product idea or engineering project? Let’s take it from first requirements to a tested prototype.</p><div className="contact-links"><a href="mailto:sulaiman.nsl.lab@gmail.com">Email <span>↗</span></a><a href="https://github.com/sulaiman-nsl-founder" target="_blank" rel="noreferrer">GitHub <span>↗</span></a><a href="https://linkedin.com/in/mohamed-sulaiman-nsl/" target="_blank" rel="noreferrer">LinkedIn <span>↗</span></a></div></div><form className="contact-form" action="mailto:sulaiman.nsl.lab@gmail.com" method="post" encType="text/plain"><div className="form-grid"><label>Name<input id="contact-name" name="name" type="text" placeholder="Your name" required /></label><label>Email<input id="contact-email" name="email" type="email" placeholder="you@example.com" required /></label></div><label>Message<textarea id="contact-message" name="message" placeholder="What would you like to build?" rows="5" required /></label><button type="submit">Send message <span>↗</span></button></form></div></section>;
 }
 
 function Work({ projects }) {
@@ -121,7 +127,7 @@ function App() {
   const currentSlug = route.startsWith('#/work/') ? route.slice('#/work/'.length) : null;
   const currentProject = useMemo(() => projects.find((project) => project.slug === currentSlug), [projects, currentSlug]);
   const page = currentSlug ? <ProjectDetail project={currentProject} /> : route === '#/work' ? <Work projects={projects} /> : <Home projects={projects} />;
-  return <><Header />{status === 'error' && <div className="notice" role="status">GitHub projects are temporarily unavailable. The portfolio shell is still available.</div>}{page}<footer className="site-footer"><div>SULAIMAN</div><p>Hardware & Product Development Engineer</p><span>© {new Date().getFullYear()}</span></footer></>;
+  return <><Header />{status === 'error' && <div className="notice" role="status">GitHub projects are temporarily unavailable. The portfolio shell is still available.</div>}{page}<footer className="site-footer"><div>MOHAMED SULAIMAN</div><p>Hardware Design Engineer · Embedded Electronics · PCB Design · Product R&amp;D</p><span>© {new Date().getFullYear()}</span></footer></>;
 }
 
 createRoot(document.getElementById('root')).render(<StrictMode><App /></StrictMode>);
