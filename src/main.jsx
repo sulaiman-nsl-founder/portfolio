@@ -54,8 +54,6 @@ function BlueprintGraphic() {
   ];
   return <div className="blueprint-stage" aria-label="Animated product system blueprint" role="img">
     <svg className="blueprint-lines" viewBox="0 0 900 360" aria-hidden="true">
-      <defs><pattern id="blueprint-grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M 30 0 L 0 0 0 30" fill="none" stroke="currentColor" strokeOpacity=".12" strokeWidth="1" /></pattern></defs>
-      <rect width="900" height="360" fill="url(#blueprint-grid)" />
       <path className="trace trace-a" d="M70 270H220V210H355V125H490V185H650V85H820" />
       <path className="trace trace-b" d="M110 70H280V145H410V275H580V220H790" />
       <path className="trace trace-c" d="M450 40V125M450 275V320M650 85V35" />
