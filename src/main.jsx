@@ -80,7 +80,7 @@ function Home({ projects }) {
   return <>
     <section className="hero page-section" id="top">
       <p className="eyebrow">01 / Engineering practice</p>
-      <h1>Hardware &amp; Product<br />Development Engineer</h1>
+      <h1><span className="hero-greeting">Hello, I’m</span><span className="hero-name">Sulaiman</span><span className="hero-role">Hardware &amp; Product Development Engineer</span></h1>
       <BlueprintGraphic />
       <div className="hero-bottom"><p className="hero-statement">I design, prototype, debug and build connected physical products.</p><div className="hero-actions"><a className="button button-dark" href="#/work">View work <span>↗</span></a><a className="text-link" href="#/about">About me <span>↗</span></a></div></div>
     </section>

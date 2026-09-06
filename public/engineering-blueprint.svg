@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 920" fill="none">
+  <rect width="1800" height="920" fill="#101010"/>
+  <g stroke="#fff" stroke-opacity=".2" stroke-width="2">
+    <path d="M0 160h180l75 75h210l90-90h180l90 90h210l80-80h210l80 80h305"/>
+    <path d="M0 670h160l100-100h210l80 80h260l90-90h190l110 110h220l90-90h180l100 90h100"/>
+    <path d="M165 0v160m390 0V0m510 155V0m390 160V0M255 760v160m460-160v160m430-170v170m430-160v160"/>
+  </g>
+  <g stroke="#fff" stroke-opacity=".28" stroke-width="3">
+    <path d="M80 440h120v-85h95v-60h125v150h95v-75h95v125h140v-95h100v-60h120v160h135v-90h100v65h145v-120h105v85h130v-40h160"/>
+    <circle cx="200" cy="440" r="10"/><circle cx="420" cy="445" r="10"/><circle cx="750" cy="405" r="10"/><circle cx="1165" cy="490" r="10"/><circle cx="1490" cy="410" r="10"/>
+  </g>
+  <g stroke="#fff" stroke-opacity=".22" stroke-width="2">
+    <rect x="1020" y="235" width="560" height="310" rx="4"/><rect x="1070" y="285" width="460" height="180" rx="2"/>
+    <path d="M1070 335h460M1070 395h460M1180 285v180M1300 285v180M1420 285v180M1140 545v90m300-90v90M1090 635h400M1050 670h480"/>
+    <circle cx="1140" cy="680" r="25"/><circle cx="1440" cy="680" r="25"/><path d="M1125 680h30m270 0h30M1140 665v30m300-30v30"/>
+  </g>
+  <g stroke="#fff" stroke-opacity=".12" stroke-width="1">
+    <path d="M0 80h1800M0 240h1800M0 400h1800M0 560h1800M0 720h1800M0 880h1800"/>
+    <path d="M90 0v920M270 0v920M450 0v920M630 0v920M810 0v920M990 0v920M1170 0v920M1350 0v920M1530 0v920M1710 0v920"/>
+  </g>
+</svg>
