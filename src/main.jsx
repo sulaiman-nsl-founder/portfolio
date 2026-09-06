@@ -45,22 +45,6 @@ function SectionHeading({ eyebrow, title }) {
   return <div className="section-heading"><span>{eyebrow}</span><h2>{title}</h2></div>;
 }
 
-function BlueprintGraphic() {
-  return <div className="blueprint-stage" aria-label="Product system blueprint" role="img">
-    <svg className="blueprint-lines" viewBox="0 0 900 360" aria-hidden="true">
-      <defs><pattern id="blueprint-grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M 30 0 L 0 0 0 30" fill="none" stroke="currentColor" strokeOpacity=".12" strokeWidth="1" /></pattern></defs>
-      <rect width="900" height="360" fill="url(#blueprint-grid)" />
-      <path className="static-trace" d="M70 270H220V210H355V125H490V185H650V85H820" />
-      <path className="static-trace" d="M110 70H280V145H410V275H580V220H790" />
-      <path className="static-trace" d="M450 40V125M450 275V320M650 85V35" />
-      <rect className="system-board" x="355" y="125" width="190" height="150" rx="2" />
-      <rect className="system-core" x="405" y="165" width="90" height="70" rx="1" />
-      <path className="system-detail" d="M380 150h25m-25 20h25m100-20h25m-25 20h25M380 250h25m-25-20h25m100 20h25m-25-20h25" />
-    </svg>
-    <span className="blueprint-caption">FIG. 01 / PRODUCT SYSTEM STUDY</span><span className="blueprint-measure measure-one">REV. 03</span><span className="blueprint-measure measure-two">24V / 3A</span>
-  </div>;
-}
-
 function ProjectTile({ project }) {
   return <a className="project-tile" href={`#/work/${project.slug}`}>
     <div className="project-image-wrap"><img src={project.heroImage} alt={`${project.title} project`} loading="lazy" onError={(event) => { event.currentTarget.src = FALLBACK_IMAGE; }} /></div>
@@ -80,7 +64,6 @@ function Home({ projects }) {
     <section className="hero page-section" id="top">
       <p className="eyebrow">01 / Engineering practice</p>
       <h1><span className="hero-greeting">Hello, I’m</span><span className="hero-name">Mohamed Sulaiman</span><span className="hero-role">Hardware Design Engineer</span></h1>
-      <BlueprintGraphic />
       <div className="hero-bottom"><p className="hero-statement">I develop electronics hardware, embedded systems and connected product prototypes from requirements through testing.</p><div className="hero-actions"><a className="button button-dark" href="#/work">View work <span>↗</span></a><a className="text-link" href="#about">About me <span>↗</span></a></div></div>
     </section>
     <section className="page-section work-preview" id="work"><SectionHeading eyebrow="02 / Selected work" title="Built in the real world." /><ProjectGallery projects={visible} /><a className="text-link section-link" href="#/work">View all work <span>↗</span></a></section>
