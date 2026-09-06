@@ -95,7 +95,7 @@ function About() {
 }
 
 function Contact() {
-  return <section className="page-section contact-section" id="contact"><SectionHeading eyebrow="05 / Contact" title="Have a hardware problem, product idea or engineering project?" /><div className="contact-row"><p>Let’s build it.</p><a className="button button-dark" href="mailto:hello@example.com">Email me <span>↗</span></a></div></section>;
+  return <section className="contact-section" id="contact"><div className="contact-panel"><div className="contact-copy"><SectionHeading eyebrow="05 / Contact" title="Ready to build something real?" /><p>Have a hardware problem, product idea or engineering project? Let’s take it from first requirements to a tested prototype.</p><div className="contact-links"><a href="mailto:hello@example.com">Email <span>↗</span></a><a href="https://github.com/sulaiman-nsl-founder" target="_blank" rel="noreferrer">GitHub <span>↗</span></a></div></div><form className="contact-form" action="mailto:hello@example.com" method="post" encType="text/plain"><div className="form-grid"><label>Name<input id="contact-name" name="name" type="text" placeholder="Your name" required /></label><label>Email<input id="contact-email" name="email" type="email" placeholder="you@example.com" required /></label></div><label>Message<textarea id="contact-message" name="message" placeholder="What would you like to build?" rows="5" required /></label><button type="submit">Send message <span>↗</span></button></form></div></section>;
 }
 
 function Work({ projects }) {
