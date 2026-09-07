@@ -29,16 +29,22 @@ function parseReadme(readme) {
 }
 
 function hasPortfolioMarker(readme) {
-  return /<!--\s*portfolio:\s*true\s*-->|(?:^|\n)portfolio:\s*true(?:\n|$)/i.test(readme);
+  return /\\?<!--\s*portfolio:\s*true\s*-->|(?:^|\n)\\?portfolio:\s*true(?:\n|$)/i.test(readme);
+}
+
+function resolveReadmeImage(image, repo) {
+  const githubBlob = image.match(/^https?:\/\/github\.com\/([^/]+)\/([^/]+)\/blob\/([^/]+)\/(.+)$/i);
+  if (githubBlob) {
+    return `https://raw.githubusercontent.com/${githubBlob[1]}/${githubBlob[2]}/${githubBlob[3]}/${githubBlob[4]}`;
+  }
+  if (/^https?:\/\//i.test(image)) return image;
+  const cleanImage = image.replace(/^\.\//, '');
+  return `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${repo.name}/${repo.default_branch}/${cleanImage}`;
 }
 
 function readmeImages(readme, repo) {
   const matches = [...readme.matchAll(/!\[[^\]]*\]\(([^)\s]+)(?:\s+[^)]*)?\)/g)];
-  return matches.map((match) => match[1]).filter(Boolean).map((image) => {
-    if (/^https?:\/\//i.test(image)) return image;
-    const cleanImage = image.replace(/^\.\//, '');
-    return `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${repo.name}/${repo.default_branch}/${cleanImage}`;
-  });
+  return matches.map((match) => match[1]).filter(Boolean).map((image) => resolveReadmeImage(image, repo));
 }
 
 async function githubJson(url) {
