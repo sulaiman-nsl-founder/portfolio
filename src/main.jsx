@@ -203,6 +203,14 @@ function ProjectDetail({ project }) {
   return <main className="project-detail"><div className="page-section"><a className="back-link" href="#/work">← Back to work</a><div className="detail-intro"><p className="eyebrow">Project / {project.topics[0] ? readableTopic(project.topics[0]) : 'Engineering'}</p><h1>{project.title}</h1><p className="detail-summary">{project.description}</p><div className="detail-links"><a className="text-link" href={project.githubUrl} target="_blank" rel="noreferrer">View on GitHub <span>↗</span></a>{project.linkedinUrl && <a className="text-link" href={project.linkedinUrl} target="_blank" rel="noreferrer">View on LinkedIn <span>↗</span></a>}</div></div><div className="detail-hero">{project.hasImage ? <img src={project.heroImage} alt={`${project.title} hero`} onError={(event) => { event.currentTarget.src = FALLBACK_IMAGE; }} /> : <GithubPlaceholder />}</div><div className="detail-layout"><aside><p className="eyebrow">Project metadata</p><p className="metadata-line">{project.year || 'Undated'} · {project.status}</p><div className="topic-list">{project.topics.map((topic) => <span key={topic}>{readableTopic(topic)}</span>)}</div></aside><article><h2>Engineering notes</h2>{project.sections.length ? project.sections.map((section) => <section className="readme-section" key={section.heading}><h3>{section.heading}</h3><MarkdownContent text={section.body} /></section>) : <p>This project is ready for a detailed engineering README. Document the problem, requirements, design decisions, debugging process, testing and results in the repository to build out this case study.</p>}</article></div></div></main>;
 }
 
+function ProjectLoading() {
+  return <main className="project-detail"><div className="page-section project-loading"><p className="eyebrow">Project / Loading</p><h1>Loading project details.</h1><p>Connecting to the project repository...</p></div></main>;
+}
+
+function ProjectError() {
+  return <main className="project-detail"><div className="page-section project-loading"><p className="eyebrow">GitHub / Temporarily unavailable</p><h1>Project data is taking a short break.</h1><p>GitHub has temporarily rate-limited the public API. Please refresh in a moment, or open the project directly on GitHub.</p><a className="text-link" href="https://github.com/sulaiman-nsl-founder/wearos-gesture-controller" target="_blank" rel="noreferrer">Open GitHub <span>↗</span></a></div></main>;
+}
+
 function App() {
   const route = useHashRoute();
   const [projects, setProjects] = useState([]);
@@ -210,8 +218,8 @@ function App() {
   useEffect(() => { discoverProjects().then((items) => { setProjects(items); setStatus('ready'); }).catch(() => setStatus('error')); }, []);
   const currentSlug = route.startsWith('#/work/') ? route.slice('#/work/'.length) : null;
   const currentProject = useMemo(() => projects.find((project) => project.slug === currentSlug), [projects, currentSlug]);
-  const page = currentSlug ? <ProjectDetail project={currentProject} /> : route === '#/work' ? <Work projects={projects} /> : <Home projects={projects} />;
-  return <div className={currentSlug ? 'app project-mode' : 'app'}><Header dark={Boolean(currentSlug)} />{status === 'error' && <div className="notice" role="status">GitHub projects are temporarily unavailable. The portfolio shell is still available.</div>}{page}<footer className="site-footer"><div>MOHAMED SULAIMAN</div><p>Hardware Design Engineer · Embedded Electronics · PCB Design · Product R&amp;D</p><span>© {new Date().getFullYear()}</span></footer></div>;
+  const page = currentSlug ? (status === 'loading' ? <ProjectLoading /> : status === 'error' ? <ProjectError /> : <ProjectDetail project={currentProject} />) : route === '#/work' ? <Work projects={projects} /> : <Home projects={projects} />;
+  return <div className={currentSlug ? 'app project-mode' : 'app'}><Header dark={Boolean(currentSlug)} />{status === 'error' && !currentSlug && <div className="notice" role="status">GitHub projects are temporarily unavailable. The portfolio shell is still available.</div>}{page}<footer className="site-footer"><div>MOHAMED SULAIMAN</div><p>Hardware Design Engineer · Embedded Electronics · PCB Design · Product R&amp;D</p><span>© {new Date().getFullYear()}</span></footer></div>;
 }
 
 createRoot(document.getElementById('root')).render(<StrictMode><App /></StrictMode>);

@@ -2,6 +2,33 @@ export const GITHUB_USERNAME = 'sulaiman-nsl-founder';
 export const FEATURED_TOPIC = 'portfolio-featured';
 export const FALLBACK_IMAGE = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600"%3E%3Crect width="900" height="600" fill="%23171717"/%3E%3Cpath d="M80 460h740M220 460V180h460v280M300 180v-70h300v70M390 250h120v90H390z" fill="none" stroke="%23fff" stroke-width="4"/%3E%3Ctext x="80" y="530" fill="%23fff" font-family="Arial" font-size="24" letter-spacing="4"%3EENGINEERING PROJECT%3C/text%3E%3C/svg%3E';
 
+const knownProjectFallbacks = {
+  'wearos-gesture-controller': {
+    id: 'wearos-gesture-controller',
+    slug: 'wearos-gesture-controller',
+    title: 'WearOS Gesture Controller',
+    description: 'An end-to-end machine-learning pipeline that turns Wear OS wrist gestures into Windows desktop automation.',
+    topics: ['embedded-systems', 'machine-learning', 'wearos', 'iot'],
+    categories: ['Embedded Systems', 'Machine Learning', 'Wearos'],
+    technologies: ['Embedded Systems', 'Machine Learning', 'Wearos', 'Iot'],
+    year: undefined,
+    status: 'Active development',
+    featured: false,
+    updatedAt: 0,
+    githubUrl: 'https://github.com/sulaiman-nsl-founder/wearos-gesture-controller',
+    linkedinUrl: undefined,
+    hasImage: true,
+    heroImage: 'https://raw.githubusercontent.com/sulaiman-nsl-founder/wearos-gesture-controller/main/demonstration/hand_gestures_hero.png',
+    gallery: ['https://raw.githubusercontent.com/sulaiman-nsl-founder/wearos-gesture-controller/main/demonstration/hand_gestures_hero.png'],
+    readme: '',
+    sections: [
+      { heading: 'Overview', body: 'An end-to-end Machine Learning pipeline that bridges Wear OS smartwatch kinematics to Windows desktop automation. Live accelerometer data is processed into machine-learning-ready tensors and classified with a lightweight TensorFlow Lite 1D convolutional neural network.' },
+      { heading: 'Features', body: '- Data acquisition engine for labeled accelerometer telemetry\n- Automated preprocessing and TensorFlow Lite training pipeline\n- Live OS control with gesture-to-keyboard mappings' },
+      { heading: 'Live controller', body: 'Flip toggles virtual desktops, while Fist minimizes all windows and shows the desktop.' },
+    ],
+  },
+};
+
 const imagePattern = /\.(jpe?g|png|webp|gif)$/i;
 
 export function readableTopic(topic) {
@@ -107,12 +134,18 @@ function normalizeRepository(repo, readme, gallery) {
 }
 
 export async function discoverProjects() {
-  const repositories = await githubJson(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`);
+  let repositories;
+  try {
+    repositories = await githubJson(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`);
+  } catch (error) {
+    if (error.status === 403 || error.status === 429) return Object.values(knownProjectFallbacks);
+    throw error;
+  }
   if (!Array.isArray(repositories)) return [];
   const publicRepos = repositories.filter((repo) => !repo.fork && !repo.archived);
   const projects = await Promise.all(publicRepos.map(async (repo) => {
     const [readme, portfolio] = await Promise.all([fetchReadme(repo), fetchPortfolio(repo)]);
-    if (!portfolio.exists && !hasPortfolioMarker(readme)) return null;
+    if (!portfolio.exists && !hasPortfolioMarker(readme)) return knownProjectFallbacks[repo.name] || null;
     const images = portfolio.exists ? portfolio.images : readmeImages(readme, repo);
     return normalizeRepository(repo, readme, images);
   }));

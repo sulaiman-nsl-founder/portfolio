@@ -80,6 +80,9 @@ h1 { max-width: 1000px; margin-bottom: 65px; font-size: clamp(3.4rem, 8vw, 8.5re
 .empty-state { border: 1px solid var(--line); padding: 30px; color: var(--muted); line-height: 1.5; } code { font-family: 'Space Mono', monospace; font-size: .85em; }
 .project-detail { min-height: calc(100vh - 72px); color: #f4f4f4; background: #0d0d0d; }
 .project-detail .page-section { padding-top: 72px; }
+.project-loading { min-height: 65vh; display: flex; flex-direction: column; justify-content: center; }
+.project-loading h1 { margin: 24px 0; font-size: clamp(3rem, 8vw, 7rem); }
+.project-loading > p:not(.eyebrow) { max-width: 520px; color: #a0a0a0; line-height: 1.6; }
 .project-detail .eyebrow, .project-detail .metadata-line { color: #8f8f8f; }
 .project-detail .text-link { border-color: #f4f4f4; }
 .back-link { display: inline-block; color: #8f8f8f; font: .7rem 'Space Mono', monospace; text-transform: uppercase; margin-bottom: 90px; } .back-link:hover { color: white; }
