@@ -98,6 +98,7 @@ function normalizeRepository(repo, readme, gallery) {
     updatedAt: repo.updated_at,
     githubUrl: repo.html_url,
     linkedinUrl,
+    hasImage: gallery.length > 0,
     heroImage,
     gallery: gallery.length ? gallery : [heroImage],
     readme,

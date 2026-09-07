@@ -29,8 +29,8 @@ function useHashRoute() {
   return route;
 }
 
-function Header() {
-  return <header className="site-header">
+function Header({ dark = false }) {
+  return <header className={`site-header${dark ? ' is-dark' : ''}`}>
     <nav className="nav" aria-label="Main navigation">
       <a className="mark-link" href="#/" aria-label="Mohamed Sulaiman home"><svg className="nav-mark" viewBox="0 0 64 48" aria-hidden="true"><path d="M8 40V8l12 22L32 8v32M40 13c3-4 8-6 13-4 4 1 6 4 6 7 0 4-3 6-8 7l-5 1c-5 1-7 4-7 8 0 5 4 8 10 8 5 0 9-2 12-5" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" /></svg></a>
       <a className="nav-link" href="#/work">Projects</a>
@@ -47,9 +47,113 @@ function SectionHeading({ eyebrow, title }) {
 
 function ProjectTile({ project }) {
   return <a className="project-tile" href={`#/work/${project.slug}`}>
-    <div className="project-image-wrap"><img src={project.heroImage} alt={`${project.title} project`} loading="lazy" onError={(event) => { event.currentTarget.src = FALLBACK_IMAGE; }} /></div>
+    <div className="project-image-wrap">{project.hasImage ? <img src={project.heroImage} alt={`${project.title} project`} loading="lazy" onError={(event) => { event.currentTarget.src = FALLBACK_IMAGE; }} /> : <GithubPlaceholder />}</div>
     <div className="project-tile-copy"><div><span className="project-number">{String(project.id).slice(-2)}</span><h3>{project.title}</h3><p>{project.description}</p></div><span className="arrow" aria-hidden="true">↗</span></div>
   </a>;
+}
+
+function GithubPlaceholder() {
+  return <div className="github-placeholder" aria-label="GitHub project"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5a9.5 9.5 0 0 0-3 18.51c.48.09.66-.21.66-.46v-1.68c-2.7.59-3.27-1.3-3.27-1.3-.44-1.12-1.08-1.42-1.08-1.42-.88-.6.07-.59.07-.59.97.07 1.48 1 1.48 1 .86 1.48 2.25 1.05 2.8.8.09-.62.34-1.05.61-1.29-2.16-.25-4.43-1.08-4.43-4.8 0-1.06.38-1.92 1-2.6-.1-.25-.43-1.23.1-2.56 0 0 .82-.26 2.67 1a9.2 9.2 0 0 1 4.86 0c1.85-1.26 2.67-1 2.67-1 .53 1.33.2 2.31.1 2.56.62.68 1 1.54 1 2.6 0 3.73-2.28 4.55-4.45 4.79.35.3.66.9.66 1.82v2.7c0 .25.18.55.67.46A9.5 9.5 0 0 0 12 2.5Z" /></svg><span>GitHub project</span></div>;
+}
+
+function safeUrl(url) {
+  return /^(https?:|mailto:)/i.test(url) ? url : '#';
+}
+
+function inlineMarkdown(text, keyPrefix = 'inline') {
+  const pattern = /(\!\[([^\]]*)\]\(([^)\s]+)(?:\s+[^)]*)?\)|\[([^\]]+)\]\(([^)\s]+)\)|`([^`]+)`|\*\*([^*]+)\*\*|__([^_]+)__)/g;
+  const output = [];
+  let cursor = 0;
+  let match;
+  while ((match = pattern.exec(text))) {
+    if (match.index > cursor) output.push(text.slice(cursor, match.index));
+    if (match[2] !== undefined) {
+      output.push(<img className="readme-image" key={`${keyPrefix}-${match.index}`} src={safeUrl(match[3])} alt={match[2] || 'Project illustration'} loading="lazy" />);
+    } else if (match[4] !== undefined) {
+      output.push(<a key={`${keyPrefix}-${match.index}`} href={safeUrl(match[5])} target="_blank" rel="noreferrer">{match[4]}</a>);
+    } else if (match[6] !== undefined) {
+      output.push(<code key={`${keyPrefix}-${match.index}`}>{match[6]}</code>);
+    } else {
+      output.push(<strong key={`${keyPrefix}-${match.index}`}>{match[7] || match[8]}</strong>);
+    }
+    cursor = match.index + match[0].length;
+  }
+  if (cursor < text.length) output.push(text.slice(cursor));
+  return output.length ? output : text;
+}
+
+function MarkdownContent({ text }) {
+  const lines = text.replace(/\r/g, '').split('\n');
+  const blocks = [];
+  let paragraph = [];
+  let list = [];
+  let code = [];
+  let codeLanguage = '';
+  let inCode = false;
+
+  const flushParagraph = () => {
+    if (paragraph.length) {
+      blocks.push(<p key={`paragraph-${blocks.length}`}>{inlineMarkdown(paragraph.join(' '), `paragraph-${blocks.length}`)}</p>);
+      paragraph = [];
+    }
+  };
+  const flushList = () => {
+    if (list.length) {
+      blocks.push(<ul key={`list-${blocks.length}`}>{list.map((item, index) => <li key={index}>{inlineMarkdown(item, `list-${blocks.length}-${index}`)}</li>)}</ul>);
+      list = [];
+    }
+  };
+  const flushCode = () => {
+    if (code.length) {
+      blocks.push(<pre key={`code-${blocks.length}`} data-language={codeLanguage}><code>{code.join('\n')}</code></pre>);
+      code = [];
+      codeLanguage = '';
+    }
+  };
+
+  lines.forEach((line) => {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('```')) {
+      flushParagraph();
+      flushList();
+      if (inCode) {
+        flushCode();
+        inCode = false;
+      } else {
+        codeLanguage = trimmed.slice(3).trim();
+        inCode = true;
+      }
+      return;
+    }
+    if (inCode) {
+      code.push(line);
+      return;
+    }
+    const heading = trimmed.match(/^#{1,6}\s+(.+)$/);
+    const bullet = trimmed.match(/^[-*+]\s+(.+)$/);
+    const numbered = trimmed.match(/^\d+[.)]\s+(.+)$/);
+    if (!trimmed) {
+      flushParagraph();
+      flushList();
+    } else if (heading) {
+      flushParagraph();
+      flushList();
+      blocks.push(<h4 key={`heading-${blocks.length}`}>{inlineMarkdown(heading[1], `heading-${blocks.length}`)}</h4>);
+    } else if (bullet || numbered) {
+      flushParagraph();
+      list.push((bullet || numbered)[1]);
+    } else if (/^---+$/.test(trimmed)) {
+      flushParagraph();
+      flushList();
+      blocks.push(<hr key={`rule-${blocks.length}`} />);
+    } else {
+      paragraph.push(trimmed);
+    }
+  });
+  flushParagraph();
+  flushList();
+  flushCode();
+  return <div className="markdown-content">{blocks}</div>;
 }
 
 function ProjectGallery({ projects }) {
@@ -96,7 +200,7 @@ function Work({ projects }) {
 
 function ProjectDetail({ project }) {
   if (!project) return <main className="page-section inner-page"><p className="eyebrow">404 / Not found</p><h1>Project unavailable.</h1><a className="text-link" href="#/work">Return to work <span>↗</span></a></main>;
-  return <main className="project-detail"><div className="page-section"><a className="back-link" href="#/work">← Back to work</a><div className="detail-intro"><p className="eyebrow">Project / {project.topics[0] ? readableTopic(project.topics[0]) : 'Engineering'}</p><h1>{project.title}</h1><p className="detail-summary">{project.description}</p><div className="detail-links"><a className="text-link" href={project.githubUrl} target="_blank" rel="noreferrer">View on GitHub <span>↗</span></a>{project.linkedinUrl && <a className="text-link" href={project.linkedinUrl} target="_blank" rel="noreferrer">View on LinkedIn <span>↗</span></a>}</div></div><img className="detail-hero" src={project.heroImage} alt={`${project.title} hero`} onError={(event) => { event.currentTarget.src = FALLBACK_IMAGE; }} /><div className="detail-layout"><aside><p className="eyebrow">Project metadata</p><p className="metadata-line">{project.year || 'Undated'} · {project.status}</p><div className="topic-list">{project.topics.map((topic) => <span key={topic}>{readableTopic(topic)}</span>)}</div></aside><article><h2>Engineering notes</h2>{project.sections.length ? project.sections.map((section) => <section className="readme-section" key={section.heading}><h3>{section.heading}</h3><p>{section.body}</p></section>) : <p>This project is ready for a detailed engineering README. Document the problem, requirements, design decisions, debugging process, testing and results in the repository to build out this case study.</p>}</article></div></div></main>;
+  return <main className="project-detail"><div className="page-section"><a className="back-link" href="#/work">← Back to work</a><div className="detail-intro"><p className="eyebrow">Project / {project.topics[0] ? readableTopic(project.topics[0]) : 'Engineering'}</p><h1>{project.title}</h1><p className="detail-summary">{project.description}</p><div className="detail-links"><a className="text-link" href={project.githubUrl} target="_blank" rel="noreferrer">View on GitHub <span>↗</span></a>{project.linkedinUrl && <a className="text-link" href={project.linkedinUrl} target="_blank" rel="noreferrer">View on LinkedIn <span>↗</span></a>}</div></div><div className="detail-hero">{project.hasImage ? <img src={project.heroImage} alt={`${project.title} hero`} onError={(event) => { event.currentTarget.src = FALLBACK_IMAGE; }} /> : <GithubPlaceholder />}</div><div className="detail-layout"><aside><p className="eyebrow">Project metadata</p><p className="metadata-line">{project.year || 'Undated'} · {project.status}</p><div className="topic-list">{project.topics.map((topic) => <span key={topic}>{readableTopic(topic)}</span>)}</div></aside><article><h2>Engineering notes</h2>{project.sections.length ? project.sections.map((section) => <section className="readme-section" key={section.heading}><h3>{section.heading}</h3><MarkdownContent text={section.body} /></section>) : <p>This project is ready for a detailed engineering README. Document the problem, requirements, design decisions, debugging process, testing and results in the repository to build out this case study.</p>}</article></div></div></main>;
 }
 
 function App() {
@@ -107,7 +211,7 @@ function App() {
   const currentSlug = route.startsWith('#/work/') ? route.slice('#/work/'.length) : null;
   const currentProject = useMemo(() => projects.find((project) => project.slug === currentSlug), [projects, currentSlug]);
   const page = currentSlug ? <ProjectDetail project={currentProject} /> : route === '#/work' ? <Work projects={projects} /> : <Home projects={projects} />;
-  return <><Header />{status === 'error' && <div className="notice" role="status">GitHub projects are temporarily unavailable. The portfolio shell is still available.</div>}{page}<footer className="site-footer"><div>MOHAMED SULAIMAN</div><p>Hardware Design Engineer · Embedded Electronics · PCB Design · Product R&amp;D</p><span>© {new Date().getFullYear()}</span></footer></>;
+  return <div className={currentSlug ? 'app project-mode' : 'app'}><Header dark={Boolean(currentSlug)} />{status === 'error' && <div className="notice" role="status">GitHub projects are temporarily unavailable. The portfolio shell is still available.</div>}{page}<footer className="site-footer"><div>MOHAMED SULAIMAN</div><p>Hardware Design Engineer · Embedded Electronics · PCB Design · Product R&amp;D</p><span>© {new Date().getFullYear()}</span></footer></div>;
 }
 
 createRoot(document.getElementById('root')).render(<StrictMode><App /></StrictMode>);
