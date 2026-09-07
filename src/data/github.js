@@ -28,6 +28,19 @@ function parseReadme(readme) {
     .slice(0, 12);
 }
 
+function hasPortfolioMarker(readme) {
+  return /<!--\s*portfolio:\s*true\s*-->|(?:^|\n)portfolio:\s*true(?:\n|$)/i.test(readme);
+}
+
+function readmeImages(readme, repo) {
+  const matches = [...readme.matchAll(/!\[[^\]]*\]\(([^)\s]+)(?:\s+[^)]*)?\)/g)];
+  return matches.map((match) => match[1]).filter(Boolean).map((image) => {
+    if (/^https?:\/\//i.test(image)) return image;
+    const cleanImage = image.replace(/^\.\//, '');
+    return `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${repo.name}/${repo.default_branch}/${cleanImage}`;
+  });
+}
+
 async function githubJson(url) {
   const response = await fetch(url, { headers: { Accept: 'application/vnd.github+json' } });
   if (!response.ok) {
@@ -92,8 +105,9 @@ export async function discoverProjects() {
   const publicRepos = repositories.filter((repo) => !repo.fork && !repo.archived);
   const projects = await Promise.all(publicRepos.map(async (repo) => {
     const [readme, portfolio] = await Promise.all([fetchReadme(repo), fetchPortfolio(repo)]);
-    if (!portfolio.exists) return null;
-    return normalizeRepository(repo, readme, portfolio.images);
+    if (!portfolio.exists && !hasPortfolioMarker(readme)) return null;
+    const images = portfolio.exists ? portfolio.images : readmeImages(readme, repo);
+    return normalizeRepository(repo, readme, images);
   }));
   return projects.filter(Boolean).sort((a, b) => Number(b.featured) - Number(a.featured) || new Date(b.updatedAt) - new Date(a.updatedAt));
 }

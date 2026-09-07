@@ -53,7 +53,7 @@ function ProjectTile({ project }) {
 }
 
 function ProjectGallery({ projects }) {
-  if (!projects.length) return <div className="empty-state">No portfolio projects are ready to display yet. Only public repositories containing a <code>portfolio/</code> folder are shown. Add a <code>portfolio/hero.jpg</code> image for the best result.</div>;
+  if (!projects.length) return <div className="empty-state">No portfolio projects are ready to display yet. Add a <code>portfolio/</code> folder, or add <code>&lt;!-- portfolio: true --&gt;</code> to a README with an embedded project image.</div>;
   return <div className="masonry-grid">{projects.map((project) => <ProjectTile key={project.id} project={project} />)}</div>;
 }
 

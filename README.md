@@ -12,6 +12,7 @@ Hardware & Product Development Engineer portfolio.
 - `portfolio/hero.*` image preference with graceful fallback
 - Featured projects via the `portfolio-featured` GitHub topic
 - Only repositories containing a `portfolio/` folder are displayed
+- README-only projects are supported with `<!-- portfolio: true -->` and an embedded image
 - Optional LinkedIn project links via repository homepage metadata
 - Natural-aspect-ratio masonry gallery
 - No private GitHub credentials required or exposed
@@ -26,6 +27,14 @@ npm run dev
 ## Portfolio-ready repository convention
 
 Add a `portfolio/hero.jpg` file and additional gallery images under `portfolio/`. Add the `portfolio-featured` topic when a project should be eligible for the homepage. Use the README to document the problem, requirements, architecture, hardware, firmware, debugging, testing, results, and lessons learned.
+
+If creating a folder in GitHub is inconvenient, add this marker to the README instead:
+
+```html
+<!-- portfolio: true -->
+```
+
+Then insert an image in the README using GitHub's image upload control. The first embedded README image becomes the project hero image.
 
 ## Next implementation checkpoints
 
