@@ -11,6 +11,7 @@ Hardware & Product Development Engineer portfolio.
 - Separated GitHub discovery and project normalization data layer
 - `portfolio/hero.*` image preference with graceful fallback
 - Featured projects via the `portfolio-featured` GitHub topic
+- Only repositories containing a `portfolio/` folder are displayed
 - Optional LinkedIn project links via repository homepage metadata
 - Natural-aspect-ratio masonry gallery
 - No private GitHub credentials required or exposed

@@ -47,14 +47,17 @@ async function fetchReadme(repo) {
   }
 }
 
-async function fetchPortfolioImages(repo) {
+async function fetchPortfolio(repo) {
   try {
     const contents = await githubJson(`https://api.github.com/repos/${GITHUB_USERNAME}/${repo.name}/contents/portfolio`);
-    return Array.isArray(contents)
-      ? contents.filter((item) => item.type === 'file' && imagePattern.test(item.name)).map((item) => item.download_url).filter(Boolean)
-      : [];
+    return {
+      exists: Array.isArray(contents),
+      images: Array.isArray(contents)
+        ? contents.filter((item) => item.type === 'file' && imagePattern.test(item.name)).map((item) => item.download_url).filter(Boolean)
+        : [],
+    };
   } catch {
-    return [];
+    return { exists: false, images: [] };
   }
 }
 
@@ -88,8 +91,9 @@ export async function discoverProjects() {
   if (!Array.isArray(repositories)) return [];
   const publicRepos = repositories.filter((repo) => !repo.fork && !repo.archived);
   const projects = await Promise.all(publicRepos.map(async (repo) => {
-    const [readme, gallery] = await Promise.all([fetchReadme(repo), fetchPortfolioImages(repo)]);
-    return normalizeRepository(repo, readme, gallery);
+    const [readme, portfolio] = await Promise.all([fetchReadme(repo), fetchPortfolio(repo)]);
+    if (!portfolio.exists) return null;
+    return normalizeRepository(repo, readme, portfolio.images);
   }));
-  return projects.sort((a, b) => Number(b.featured) - Number(a.featured) || new Date(b.updatedAt) - new Date(a.updatedAt));
+  return projects.filter(Boolean).sort((a, b) => Number(b.featured) - Number(a.featured) || new Date(b.updatedAt) - new Date(a.updatedAt));
 }

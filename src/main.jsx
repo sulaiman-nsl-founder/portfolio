@@ -53,7 +53,7 @@ function ProjectTile({ project }) {
 }
 
 function ProjectGallery({ projects }) {
-  if (!projects.length) return <div className="empty-state">No public projects are ready to display yet. Add a repository with a README and a <code>portfolio/hero.jpg</code> image to begin.</div>;
+  if (!projects.length) return <div className="empty-state">No portfolio projects are ready to display yet. Only public repositories containing a <code>portfolio/</code> folder are shown. Add a <code>portfolio/hero.jpg</code> image for the best result.</div>;
   return <div className="masonry-grid">{projects.map((project) => <ProjectTile key={project.id} project={project} />)}</div>;
 }
 
@@ -64,7 +64,7 @@ function Home({ projects }) {
     <section className="hero page-section" id="top">
       <p className="eyebrow">01 / Engineering practice</p>
       <h1><span className="hero-greeting">Hello, I’m</span><span className="hero-name">Mohamed Sulaiman</span><span className="hero-role">Hardware Design Engineer</span></h1>
-      <div className="hero-bottom"><p className="hero-statement">I develop electronics hardware, embedded systems and connected product prototypes from requirements through testing.</p><div className="hero-actions"><a className="button button-dark" href="#/work">View work <span>↗</span></a><a className="text-link" href="#about">About me <span>↗</span></a></div></div>
+      <div className="hero-bottom"><p className="hero-statement">I develop electronics hardware, embedded systems and connected product prototypes from requirements through testing.</p><div className="hero-actions"><a className="button button-dark" href="#/work">View work <span>↗</span></a><a className="text-link" href="#about">About me <span>↗</span></a><a className="text-link" href="/Mohamed-Sulaiman-Resume.pdf" target="_blank" rel="noreferrer">Resume <span>↗</span></a></div></div>
     </section>
     <section className="page-section work-preview" id="work"><SectionHeading eyebrow="02 / Selected work" title="Built in the real world." /><ProjectGallery projects={visible} /><a className="text-link section-link" href="#/work">View all work <span>↗</span></a></section>
     <section className="dark-section"><div className="page-section"><SectionHeading eyebrow="03 / Capabilities" title="From first circuit to field test." /><div className="capability-grid">{capabilities.map(([title, ...items]) => <div className="capability" key={title}><h3>{title}</h3>{items.map((item) => <p key={item}>{item}</p>)}</div>)}</div></div></section>
