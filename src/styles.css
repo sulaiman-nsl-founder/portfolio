@@ -64,6 +64,8 @@ h1 { max-width: 1000px; margin-bottom: 65px; font-size: clamp(3.4rem, 8vw, 8.5re
 .project-tile p { color: var(--muted); font-size: .9rem; line-height: 1.35; max-width: 270px; margin-bottom: 0; }
 .arrow { font-size: 1.3rem; transition: transform .2s ease; } .project-tile:hover .arrow { transform: translate(3px, -3px); }
 .section-link { margin-top: 15px; }
+.section-gray { background: #171717; }
+.work-preview.section-gray, .split-section.section-gray { width: 100%; max-width: none; padding-inline: max(24px, calc((100% - var(--max)) / 2)); }
 .dark-section { color: white; background: #171717; } .dark-section .eyebrow, .dark-section .section-heading > span { color: #f1f1f1; }
 .capability-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; border-top: 1px solid #444; }
 .capability { padding-top: 17px; border-top: 2px solid #fff; } .capability h3 { font: 700 .74rem 'Space Mono', monospace; text-transform: uppercase; margin-bottom: 27px; }
