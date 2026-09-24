@@ -50,9 +50,9 @@ h1 { max-width: 1000px; margin-bottom: 65px; font-size: clamp(3.4rem, 8vw, 8.5re
 .button { display: inline-flex; gap: 24px; align-items: center; padding: 15px 18px; font: 400 .72rem 'Space Mono', monospace; text-transform: uppercase; transition: transform .2s ease, background .2s ease; }
 .button:hover { transform: translateY(-2px); } .button-dark { color: #0d0d0d; background: var(--ink); }
 .text-link { display: inline-flex; gap: 12px; align-items: center; font: 400 .72rem 'Space Mono', monospace; text-transform: uppercase; border-bottom: 1px solid var(--ink); padding-bottom: 5px; }
-.section-heading { display: block; margin-bottom: 50px; text-align: center; }
+.section-heading { display: block; margin-bottom: 50px; text-align: left; }
 .section-heading > span { display: block; margin-bottom: 20px; }
-.section-heading h2 { max-width: 680px; margin: 0 auto; font-size: clamp(2.2rem, 4.5vw, 5rem); line-height: .98; letter-spacing: -.065em; font-weight: 500; }
+.section-heading h2 { max-width: 680px; margin: 0; font-size: clamp(2.2rem, 4.5vw, 5rem); line-height: .98; letter-spacing: -.065em; font-weight: 500; }
 .masonry-grid { columns: 3 280px; column-gap: 20px; }
 .project-tile { display: inline-block; width: 100%; break-inside: avoid; margin: 0 0 46px; }
 .project-image-wrap { background: var(--soft); overflow: hidden; }
@@ -72,7 +72,7 @@ h1 { max-width: 1000px; margin-bottom: 65px; font-size: clamp(3.4rem, 8vw, 8.5re
 .capability-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; border-top: 1px solid #444; }
 .capability { padding-top: 17px; border-top: 2px solid #fff; } .capability h3 { font: 700 .74rem 'Space Mono', monospace; text-transform: uppercase; margin-bottom: 27px; }
 .capability p { color: #c3c3c3; font-size: .9rem; margin-bottom: 9px; }
-.split-section { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; } .split-section .section-heading { display: block; margin: 0; } .split-section .section-heading h2 { margin: 22px auto 0; }
+.split-section { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; } .split-section .section-heading { display: block; margin: 0; } .split-section .section-heading h2 { margin: 22px 0 0; }
 .split-copy { max-width: 690px; } .large-copy { font-size: clamp(1.25rem, 2.4vw, 2.65rem); line-height: 1.1; letter-spacing: -.045em; } .split-copy > p:nth-child(2) { color: var(--muted); max-width: 570px; line-height: 1.55; } .credential-row { display: grid; gap: 8px; margin-top: 30px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font: .64rem 'Space Mono', monospace; text-transform: uppercase; }
 .experience-track { display: grid; grid-template-columns: repeat(6, 1fr); border-top: 1px solid var(--line); } .experience-step { min-height: 150px; display: flex; flex-direction: column; justify-content: space-between; gap: 20px; padding: 16px 14px 18px 0; border-right: 1px solid var(--line); } .experience-step:not(:first-child) { padding-left: 14px; } .experience-step:last-child { border-right: 0; } .experience-step span { color: var(--muted); font: .64rem 'Space Mono', monospace; } .experience-step strong { max-width: 130px; font-size: .96rem; line-height: 1.1; letter-spacing: -.03em; }
 .career-list { border-top: 1px solid var(--line); } .career-item { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; padding: 24px 0 32px; border-bottom: 1px solid var(--line); } .career-meta { display: flex; flex-direction: column; gap: 7px; color: var(--muted); font: .64rem 'Space Mono', monospace; text-transform: uppercase; } .career-item h3 { margin: 0 0 18px; font-size: clamp(1.35rem, 2.4vw, 2.25rem); line-height: 1; letter-spacing: -.05em; font-weight: 500; } .career-item ul { display: grid; gap: 8px; margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.45; } .career-item li::marker { color: var(--ink); }
