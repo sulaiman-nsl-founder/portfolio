@@ -1,3 +1,5 @@
+import { LEGACY_PROJECTS } from './legacyProjects';
+
 export const GITHUB_USERNAME = 'sulaiman-nsl-founder';
 export const FEATURED_TOPIC = 'portfolio-featured';
 export const FALLBACK_IMAGE = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600"%3E%3Crect width="900" height="600" fill="%23171717"/%3E%3Cpath d="M80 460h740M220 460V180h460v280M300 180v-70h300v70M390 250h120v90H390z" fill="none" stroke="%23fff" stroke-width="4"/%3E%3Ctext x="80" y="530" fill="%23fff" font-family="Arial" font-size="24" letter-spacing="4"%3EENGINEERING PROJECT%3C/text%3E%3C/svg%3E';
@@ -107,6 +109,12 @@ async function fetchPortfolio(repo) {
   }
 }
 
+function mergeLegacyProjects(projects) {
+  const merged = new Map(LEGACY_PROJECTS.map((project) => [project.slug, project]));
+  projects.forEach((project) => merged.set(project.slug, project));
+  return [...merged.values()].sort((a, b) => Number(b.featured) - Number(a.featured) || new Date(b.updatedAt) - new Date(a.updatedAt));
+}
+
 function normalizeRepository(repo, readme, gallery) {
   const topics = Array.isArray(repo.topics) ? repo.topics : [];
   const heroImage = gallery.find((image) => /hero\.(jpe?g|png|webp|gif)$/i.test(image)) || gallery[0] || FALLBACK_IMAGE;
@@ -138,7 +146,7 @@ export async function discoverProjects() {
   try {
     repositories = await githubJson(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`);
   } catch (error) {
-    if (error.status === 403 || error.status === 429) return Object.values(knownProjectFallbacks);
+    if (error.status === 403 || error.status === 429) return mergeLegacyProjects(Object.values(knownProjectFallbacks));
     throw error;
   }
   if (!Array.isArray(repositories)) return [];
@@ -149,5 +157,5 @@ export async function discoverProjects() {
     const images = portfolio.exists ? portfolio.images : readmeImages(readme, repo);
     return normalizeRepository(repo, readme, images);
   }));
-  return projects.filter(Boolean).sort((a, b) => Number(b.featured) - Number(a.featured) || new Date(b.updatedAt) - new Date(a.updatedAt));
+  return mergeLegacyProjects(projects.filter(Boolean));
 }
