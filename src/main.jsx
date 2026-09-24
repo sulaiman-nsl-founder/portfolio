@@ -162,7 +162,7 @@ function ProjectGallery({ projects }) {
 }
 
 function Home({ projects }) {
-  const visible = projects.slice(0, 1);
+  const visible = projects.slice(0, 6);
   return <>
     <section className="hero page-section" id="top">
       <p className="eyebrow">Engineering practice</p>
