@@ -32,7 +32,7 @@ function useHashRoute() {
 function Header({ dark = false }) {
   return <header className={`site-header${dark ? ' is-dark' : ''}`}>
     <nav className="nav" aria-label="Main navigation">
-      <a className="mark-link" href="#/" aria-label="Mohamed Sulaiman home"><svg className="nav-mark" viewBox="0 0 64 48" aria-hidden="true"><path d="M8 40V8l12 22L32 8v32M40 13c3-4 8-6 13-4 4 1 6 4 6 7 0 4-3 6-8 7l-5 1c-5 1-7 4-7 8 0 5 4 8 10 8 5 0 9-2 12-5" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" /></svg></a>
+      <a className="mark-link" href="#/" aria-label="sulaiman home"><svg className="nav-mark" viewBox="0 0 64 48" aria-hidden="true"><path d="M8 40V8l12 22L32 8v32M40 13c3-4 8-6 13-4 4 1 6 4 6 7 0 4-3 6-8 7l-5 1c-5 1-7 4-7 8 0 5 4 8 10 8 5 0 9-2 12-5" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" /></svg></a>
       <a className="nav-link" href="#/work">Projects</a>
       <a className="nav-link" href="#about">About</a>
       <a className="nav-link" href="#experience">Experience</a>
@@ -167,7 +167,7 @@ function Home({ projects }) {
   return <>
     <section className="hero page-section" id="top">
       <p className="eyebrow">01 / Engineering practice</p>
-      <h1><span className="hero-greeting">Hello, I’m</span><span className="hero-name">Mohamed Sulaiman</span><span className="hero-role">Hardware Design Engineer</span></h1>
+      <h1><span className="hero-greeting">Hello, I’m</span><span className="hero-name">sulaiman</span><span className="hero-role">Hardware Design Engineer</span></h1>
       <div className="hero-bottom"><p className="hero-statement">I develop electronics hardware, embedded systems and connected product prototypes from requirements through testing.</p><div className="hero-actions"><a className="button button-dark" href="#/work">View work <span>↗</span></a><a className="text-link" href="#about">About me <span>↗</span></a><a className="text-link" href="/Mohamed-Sulaiman-Resume.pdf" target="_blank" rel="noreferrer">Resume <span>↗</span></a></div></div>
     </section>
     <section className="page-section work-preview section-gray" id="work"><SectionHeading eyebrow="02 / Selected work" title="Built in the real world." /><ProjectGallery projects={visible} /><a className="text-link section-link" href="#/work">View all work <span>↗</span></a></section>
@@ -219,7 +219,7 @@ function App() {
   const currentSlug = route.startsWith('#/work/') ? route.slice('#/work/'.length) : null;
   const currentProject = useMemo(() => projects.find((project) => project.slug === currentSlug), [projects, currentSlug]);
   const page = currentSlug ? (status === 'loading' ? <ProjectLoading /> : status === 'error' ? <ProjectError /> : <ProjectDetail project={currentProject} />) : route === '#/work' ? <Work projects={projects} /> : <Home projects={projects} />;
-  return <div className={currentSlug ? 'app project-mode' : 'app'}><Header dark={Boolean(currentSlug)} />{status === 'error' && !currentSlug && <div className="notice" role="status">GitHub projects are temporarily unavailable. The portfolio shell is still available.</div>}{page}<footer className="site-footer"><div>MOHAMED SULAIMAN</div><p>Hardware Design Engineer · Embedded Electronics · PCB Design · Product R&amp;D</p><span>© {new Date().getFullYear()}</span></footer></div>;
+  return <div className={currentSlug ? 'app project-mode' : 'app'}><Header dark={Boolean(currentSlug)} />{status === 'error' && !currentSlug && <div className="notice" role="status">GitHub projects are temporarily unavailable. The portfolio shell is still available.</div>}{page}<footer className="site-footer"><div>SULAIMAN</div><p>Hardware Design Engineer · Embedded Electronics · PCB Design · Product R&amp;D</p><span>© {new Date().getFullYear()}</span></footer></div>;
 }
 
 createRoot(document.getElementById('root')).render(<StrictMode><App /></StrictMode>);
