@@ -129,7 +129,7 @@ function normalizeRepository(repo, readme, gallery) {
     technologies: topics.filter((topic) => topic !== FEATURED_TOPIC).map(readableTopic),
     year: repo.created_at ? new Date(repo.created_at).getFullYear() : undefined,
     status: repo.archived ? 'Archived' : 'Active development',
-    featured: topics.includes(FEATURED_TOPIC),
+    featured: topics.includes(FEATURED_TOPIC) || repo.name === 'wearos-gesture-controller',
     updatedAt: repo.updated_at,
     githubUrl: repo.html_url,
     linkedinUrl,
