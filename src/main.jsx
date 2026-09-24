@@ -45,10 +45,10 @@ function SectionHeading({ eyebrow, title }) {
   return <div className="section-heading"><span>{eyebrow}</span><h2>{title}</h2></div>;
 }
 
-function ProjectTile({ project }) {
+function ProjectTile({ project, index = 0 }) {
   return <a className="project-tile" href={`#/work/${project.slug}`}>
     <div className="project-image-wrap">{project.hasImage ? <img src={project.heroImage} alt={`${project.title} project`} loading="lazy" onError={(event) => { event.currentTarget.src = FALLBACK_IMAGE; }} /> : <GithubPlaceholder />}</div>
-    <div className="project-tile-copy"><div><span className="project-number">{String(project.id).slice(-2)}</span><h3>{project.title}</h3><p>{project.description}</p></div><span className="arrow" aria-hidden="true">↗</span></div>
+    <div className="project-tile-copy"><div><span className="project-number">{String(index + 1).padStart(2, '0')}</span><h3>{project.title}</h3><p>{project.description}</p></div><span className="arrow" aria-hidden="true">↗</span></div>
   </a>;
 }
 
@@ -158,7 +158,7 @@ function MarkdownContent({ text }) {
 
 function ProjectGallery({ projects }) {
   if (!projects.length) return <div className="empty-state">No portfolio projects are ready to display yet. Add a <code>portfolio/</code> folder, or add <code>&lt;!-- portfolio: true --&gt;</code> to a README with an embedded project image.</div>;
-  return <div className="masonry-grid">{projects.map((project) => <ProjectTile key={project.id} project={project} />)}</div>;
+  return <div className="masonry-grid">{projects.map((project, index) => <ProjectTile key={project.id} project={project} index={index} />)}</div>;
 }
 
 function Home({ projects }) {
