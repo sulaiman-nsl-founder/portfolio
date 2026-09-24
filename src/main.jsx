@@ -162,8 +162,7 @@ function ProjectGallery({ projects }) {
 }
 
 function Home({ projects }) {
-  const featured = projects.filter((project) => project.featured).slice(0, 6);
-  const visible = featured.length ? featured : projects.slice(0, 6);
+  const visible = projects.slice(0, 1);
   return <>
     <section className="hero page-section" id="top">
       <p className="eyebrow">Engineering practice</p>
@@ -195,7 +194,7 @@ function Contact() {
 }
 
 function Work({ projects }) {
-  return <main className="page-section inner-page"><SectionHeading eyebrow="Work / All projects" title="A record of things built, tested and learned." /><ProjectGallery projects={projects} /></main>;
+  return <main className="page-section inner-page"><SectionHeading eyebrow="Work / All projects" title="A record of things built, tested and learned." /><ProjectGallery projects={projects.slice(0, 6)} /></main>;
 }
 
 function ProjectDetail({ project }) {
