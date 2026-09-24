@@ -1,4 +1,4 @@
-const project = ({ slug, title, description, topics, year, sections }) => ({
+const project = ({ slug, title, description, topics, year, sections, image = '' }) => ({
   id: `legacy-${slug}`,
   slug,
   title,
@@ -11,9 +11,9 @@ const project = ({ slug, title, description, topics, year, sections }) => ({
   featured: false,
   updatedAt: `${year}-01-01`,
   githubUrl: 'https://github.com/sulaiman-nsl-founder',
-  hasImage: false,
-  heroImage: '',
-  gallery: [],
+  hasImage: Boolean(image),
+  heroImage: image,
+  gallery: image ? [image] : [],
   readme: '',
   sections,
   legacy: true,
