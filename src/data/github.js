@@ -150,7 +150,7 @@ export async function discoverProjects() {
     throw error;
   }
   if (!Array.isArray(repositories)) return [];
-  const publicRepos = repositories.filter((repo) => !repo.fork && !repo.archived);
+  const publicRepos = repositories.filter((repo) => !repo.fork && !repo.archived && repo.name.toLowerCase() !== 'portfolio');
   const projects = await Promise.all(publicRepos.map(async (repo) => {
     const [readme, portfolio] = await Promise.all([fetchReadme(repo), fetchPortfolio(repo)]);
     if (!portfolio.exists && !hasPortfolioMarker(readme)) return knownProjectFallbacks[repo.name] || null;
