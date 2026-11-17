@@ -39,6 +39,7 @@ export const LEGACY_PROJECTS = [
     description: 'A low-power wearable built with the Seeed Studio XIAO nRF54L15, Zephyr RTOS, BLE, LVGL and an e-paper display.',
     topics: ['nRF54L15', 'Zephyr RTOS', 'BLE', 'Low Power'],
     year: 2025,
+    image: 'legacy-projects/nrf54l15-e-paper-watch.png',
     sections: [
       { heading: 'Project overview', body: 'Migrated an earlier ESP32 implementation to the Seeed Studio XIAO nRF54L15 and Zephyr RTOS for a more advanced wearable architecture.' },
       { heading: 'Technologies', body: '- Nordic nRF54L15\n- Zephyr RTOS and Embedded C\n- 1.54-inch e-paper display\n- LVGL user interface\n- BLE and low-power design' },
