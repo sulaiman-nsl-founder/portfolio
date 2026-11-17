@@ -52,7 +52,7 @@ export const LEGACY_PROJECTS = [
     description: 'A connected pet-feeding product prototype with load-cell measurement, display, battery operation and cloud connectivity.',
     topics: ['ESP32', 'Sensors', 'IoT', 'Product Development'],
     year: 2025,
-    image: 'legacy-projects/smart-pet-bowl-thumbnail.png',
+    image: 'legacy-projects/smart-pet-bowl-wireframe.png',
     sections: [
       { heading: 'Product overview', body: 'Developed a connected pet bowl using load-cell measurement, an ESP32, a display, battery power, Type-C charging and a 3D-printed enclosure.' },
       { heading: 'Technologies', body: '- HX711 / NAU7802 load-cell interface\n- ESP32 embedded controller\n- TFT display and battery system\n- Firebase/cloud integration\n- 3D-printed product enclosure' },
