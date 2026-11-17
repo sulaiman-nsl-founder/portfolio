@@ -194,7 +194,7 @@ function Contact() {
 }
 
 function Work({ projects }) {
-  return <main className="page-section inner-page"><SectionHeading eyebrow="Work / All projects" title="A record of things built, tested and learned." /><ProjectGallery projects={projects.slice(0, 6)} /></main>;
+  return <main className="page-section inner-page"><a className="back-link" href="#/">← Back to home</a><SectionHeading eyebrow="Work / All projects" title="A record of things built, tested and learned." /><ProjectGallery projects={projects.slice(0, 6)} /></main>;
 }
 
 function ProjectDetail({ project }) {
