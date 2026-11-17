@@ -26,6 +26,7 @@ export const LEGACY_PROJECTS = [
     description: 'An end-to-end connected pet product combining mechanical design, electronics, firmware, BLE and a web application.',
     topics: ['IoT', 'BLE', 'Product Development', '3D Printing'],
     year: 2025,
+    image: 'legacy-projects/smart-pet-activity-tracking-collar.png',
     sections: [
       { heading: 'Product overview', body: 'Designed a smart collar from physical concept to working prototype, combining 3D modelling, 3D printing, electronics, firmware, Bluetooth connectivity and a web application.' },
       { heading: 'Engineering scope', body: '- Battery-powered embedded electronics\n- Sensor integration and activity tracking\n- BLE communication\n- 3D CAD and printed enclosure\n- IoT product and web application development' },
