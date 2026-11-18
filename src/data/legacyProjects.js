@@ -1,4 +1,4 @@
-const project = ({ slug, title, description, topics, year, sections, image = '' }) => ({
+const project = ({ slug, title, description, topics, year, sections, image = '', projectUrl = 'https://github.com/sulaiman-nsl-founder', projectLinkLabel = 'View on GitHub' }) => ({
   id: `legacy-${slug}`,
   slug,
   title,
@@ -10,7 +10,9 @@ const project = ({ slug, title, description, topics, year, sections, image = '' 
   status: 'Completed project',
   featured: false,
   updatedAt: `${year}-01-01`,
-  githubUrl: 'https://github.com/sulaiman-nsl-founder',
+  githubUrl: projectUrl,
+  primaryUrl: projectUrl,
+  primaryLabel: projectLinkLabel,
   hasImage: Boolean(image),
   heroImage: image,
   gallery: image ? [image] : [],
@@ -27,6 +29,8 @@ export const LEGACY_PROJECTS = [
     topics: ['IoT', 'BLE', 'Product Development', '3D Printing'],
     year: 2025,
     image: 'legacy-projects/smart-pet-activity-tracking-collar.png',
+    projectUrl: 'https://lnkd.in/p/gtdh2z_v',
+    projectLinkLabel: 'View project',
     sections: [
       { heading: 'Product overview', body: 'Designed a smart collar from physical concept to working prototype, combining 3D modelling, 3D printing, electronics, firmware, Bluetooth connectivity and a web application.' },
       { heading: 'Engineering scope', body: '- Battery-powered embedded electronics\n- Sensor integration and activity tracking\n- BLE communication\n- 3D CAD and printed enclosure\n- IoT product and web application development' },
@@ -53,6 +57,8 @@ export const LEGACY_PROJECTS = [
     topics: ['ESP32', 'Sensors', 'IoT', 'Product Development'],
     year: 2025,
     image: 'legacy-projects/smart-pet-bowl-wireframe.png',
+    projectUrl: 'https://lnkd.in/p/gtdh2z_v',
+    projectLinkLabel: 'View project',
     sections: [
       { heading: 'Product overview', body: 'Developed a connected pet bowl using load-cell measurement, an ESP32, a display, battery power, Type-C charging and a 3D-printed enclosure.' },
       { heading: 'Technologies', body: '- HX711 / NAU7802 load-cell interface\n- ESP32 embedded controller\n- TFT display and battery system\n- Firebase/cloud integration\n- 3D-printed product enclosure' },

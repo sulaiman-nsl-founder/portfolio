@@ -132,6 +132,8 @@ function normalizeRepository(repo, readme, gallery) {
     featured: topics.includes(FEATURED_TOPIC) || repo.name === 'wearos-gesture-controller',
     updatedAt: repo.updated_at,
     githubUrl: repo.html_url,
+    primaryUrl: repo.html_url,
+    primaryLabel: 'View on GitHub',
     linkedinUrl,
     hasImage: gallery.length > 0,
     heroImage,
