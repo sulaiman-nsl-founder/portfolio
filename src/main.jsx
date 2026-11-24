@@ -222,6 +222,9 @@ function App() {
   const route = useHashRoute();
   const [projects, setProjects] = useState([]);
   const [status, setStatus] = useState('loading');
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [route]);
   useEffect(() => { discoverProjects().then((items) => { setProjects(items); setStatus('ready'); }).catch(() => setStatus('error')); }, []);
   const currentSlug = route.startsWith('#/work/') ? route.slice('#/work/'.length) : null;
   const currentProject = useMemo(() => projects.find((project) => project.slug === currentSlug), [projects, currentSlug]);
