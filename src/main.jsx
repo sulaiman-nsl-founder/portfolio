@@ -47,8 +47,8 @@ function SectionHeading({ eyebrow, title }) {
 
 function ProjectTile({ project, index = 0 }) {
   return <a className="project-tile" href={`#/work/${project.slug}`}>
-    <div className="project-image-wrap">{project.hasImage ? <img src={project.heroImage} alt={`${project.title} project`} loading="lazy" onError={(event) => { event.currentTarget.src = FALLBACK_IMAGE; }} /> : <GithubPlaceholder />}</div>
-    <div className="project-tile-copy"><div><span className="project-number">{String(index + 1).padStart(2, '0')}</span><h3>{project.title}</h3><p>{project.description}</p></div><span className="arrow" aria-hidden="true">↗</span></div>
+    <div className="project-image-wrap">{project.hasImage ? <img src={project.heroImage} alt={`${project.title} project`} loading="lazy" onError={(event) => { event.currentTarget.src = FALLBACK_IMAGE; }} /> : <GithubPlaceholder />}<div className="project-image-overlay"><span className="project-number">{String(index + 1).padStart(2, '0')}</span><h3>{project.title}</h3></div></div>
+    <div className="project-tile-copy"><p>{project.description}</p><span className="arrow" aria-hidden="true">↗</span></div>
   </a>;
 }
 
