@@ -177,4 +177,19 @@ export const LEGACY_PROJECTS = [
       { heading: 'Areas explored', body: '- ESP32 and ESP32-S3\n- AI and local model integration\n- IoT product concepts\n- Sensors and displays\n- Hardware prototyping\n- PCB development' },
     ],
   }),
+  project({
+    slug: 'culture-meets-technology-onam',
+    title: 'Culture Meets Technology',
+    description: 'An Onam celebration installation that brought a traditional Pookalam to life with moving Kathakali eyes and glowing vilakku, blending Kerala culture with embedded technology.',
+    topics: ['Embedded Systems', 'Servo Motors', 'IoT Team', 'Rapid Prototyping'],
+    year: 2026,
+    projectUrl: 'https://lnkd.in/p/gDJ_Hiyg',
+    projectLinkLabel: 'View project',
+    sections: [
+      { heading: 'Project overview', body: 'When tradition meets innovation, even an Onam celebration can get a technology twist. The IoT team created a festive Pookalam installation where Kathakali eyes moved around the Kolam, surrounded by glowing vilakku.' },
+      { heading: 'My contribution', body: 'Added a technology touch to the Pookalam by making the Kathakali eyes move using servo motors. This required turning a cultural-art installation into a small, reliable mechatronics experience for the celebration.' },
+      { heading: 'Engineering focus', body: '- Servo motor actuation\n- Embedded control and motion timing\n- Physical installation integration\n- Rapid prototyping\n- Culture-led product creativity' },
+      { heading: 'Reflection', body: 'A celebration where culture meets technology, tradition meets innovation, and creativity brings it all together. Grateful to Cavin Infotech for the opportunity and to everyone who supported the build.' },
+    ],
+  }),
 ];
