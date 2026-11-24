@@ -184,8 +184,8 @@ export const LEGACY_PROJECTS = [
     topics: ['Embedded Systems', 'Servo Motors', 'IoT Team', 'Rapid Prototyping'],
     year: 2026,
     image: 'legacy-projects/culture-meets-technology-hero.png',
-    projectUrl: 'https://lnkd.in/p/gDJ_Hiyg',
-    projectLinkLabel: 'View project',
+    projectUrl: 'https://github.com/sulaiman-nsl-founder/culture-meets-technology',
+    projectLinkLabel: 'View on GitHub',
     sections: [
       { heading: 'Project overview', body: 'When tradition meets innovation, even an Onam celebration can get a technology twist. The IoT team created a festive Pookalam installation where Kathakali eyes moved around the Kolam, surrounded by glowing vilakku.' },
       { heading: 'My contribution', body: 'Added a technology touch to the Pookalam by making the Kathakali eyes move using servo motors. This required turning a cultural-art installation into a small, reliable mechatronics experience for the celebration.' },
