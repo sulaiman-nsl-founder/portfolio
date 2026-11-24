@@ -178,11 +178,12 @@ export const LEGACY_PROJECTS = [
     ],
   }),
   project({
-    slug: 'culture-meets-technology-onam',
+    slug: 'culture-meets-technology',
     title: 'Culture Meets Technology',
     description: 'An Onam celebration installation that brought a traditional Pookalam to life with moving Kathakali eyes and glowing vilakku, blending Kerala culture with embedded technology.',
     topics: ['Embedded Systems', 'Servo Motors', 'IoT Team', 'Rapid Prototyping'],
     year: 2026,
+    image: 'legacy-projects/culture-meets-technology-hero.png',
     projectUrl: 'https://lnkd.in/p/gDJ_Hiyg',
     projectLinkLabel: 'View project',
     sections: [
