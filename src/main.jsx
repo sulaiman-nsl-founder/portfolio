@@ -162,7 +162,15 @@ function ProjectGallery({ projects }) {
 }
 
 function Home({ projects }) {
-  const visible = projects.slice(0, 6);
+  const flagshipSlugs = [
+    'smart-pet-activity-tracking-collar',
+    'nrf54l15-e-paper-watch',
+    'smart-pet-bowl',
+    'smart-bird-bowl-with-camera',
+  ];
+  const flagshipProjects = flagshipSlugs.map((slug) => projects.find((project) => project.slug === slug)).filter(Boolean);
+  const flagshipSet = new Set(flagshipProjects.map((project) => project.slug));
+  const visible = [...flagshipProjects, ...projects.filter((project) => !flagshipSet.has(project.slug))].slice(0, 6);
   return <>
     <section className="hero page-section" id="top">
       <p className="eyebrow">Engineering practice</p>
@@ -194,12 +202,12 @@ function Contact() {
 }
 
 function Work({ projects }) {
-  return <main className="page-section inner-page"><a className="back-link" href="#/">← Back to home</a><SectionHeading eyebrow="Work / All projects" title="A record of things built, tested and learned." /><ProjectGallery projects={projects.slice(0, 6)} /></main>;
+  return <main className="page-section inner-page"><a className="back-link" href="#/">← Back to home</a><SectionHeading eyebrow="Work / All projects" title="A record of things built, tested and learned." /><ProjectGallery projects={projects} /></main>;
 }
 
 function ProjectDetail({ project }) {
   if (!project) return <main className="page-section inner-page"><p className="eyebrow">404 / Not found</p><h1>Project unavailable.</h1><a className="text-link" href="#/work">Return to work <span>↗</span></a></main>;
-  return <main className="project-detail"><div className="page-section"><a className="back-link" href="#/work">← Back to work</a><div className="detail-intro"><p className="eyebrow">Project / {project.topics[0] ? readableTopic(project.topics[0]) : 'Engineering'}</p><h1>{project.title}</h1><p className="detail-summary">{project.description}</p><div className="detail-links"><a className="text-link" href={project.primaryUrl || project.githubUrl} target="_blank" rel="noreferrer">{project.primaryLabel || 'View on GitHub'} <span>↗</span></a>{project.linkedinUrl && <a className="text-link" href={project.linkedinUrl} target="_blank" rel="noreferrer">View on LinkedIn <span>↗</span></a>}</div></div><div className="detail-hero">{project.hasImage ? <img src={project.heroImage} alt={`${project.title} hero`} onError={(event) => { event.currentTarget.src = FALLBACK_IMAGE; }} /> : <GithubPlaceholder />}</div><div className="detail-layout"><aside><p className="eyebrow">Project metadata</p><p className="metadata-line">{project.year || 'Undated'} · {project.status}</p><div className="topic-list">{project.topics.map((topic) => <span key={topic}>{readableTopic(topic)}</span>)}</div></aside><article><h2>Engineering notes</h2>{project.sections.length ? project.sections.map((section) => <section className="readme-section" key={section.heading}><h3>{section.heading}</h3><MarkdownContent text={section.body} /></section>) : <p>This project is ready for a detailed engineering README. Document the problem, requirements, design decisions, debugging process, testing and results in the repository to build out this case study.</p>}</article></div></div></main>;
+  return <main className="project-detail"><div className="page-section"><a className="back-link" href="#/work">← Back to work</a><div className="detail-intro"><p className="eyebrow">Project / {project.topics[0] ? readableTopic(project.topics[0]) : 'Engineering'}</p><h1>{project.title}</h1><p className="detail-summary">{project.description}</p></div><div className="detail-hero">{project.hasImage ? <img src={project.heroImage} alt={`${project.title} hero`} onError={(event) => { event.currentTarget.src = FALLBACK_IMAGE; }} /> : <GithubPlaceholder />}</div><div className="detail-layout"><aside><p className="eyebrow">Project metadata</p><p className="metadata-line">{project.year || 'Undated'} · {project.status}</p><div className="topic-list">{project.topics.map((topic) => <span key={topic}>{readableTopic(topic)}</span>)}</div></aside><article><h2>Engineering notes</h2>{project.sections.length ? project.sections.map((section) => <section className="readme-section" key={section.heading}><h3>{section.heading}</h3><MarkdownContent text={section.body} /></section>) : <p>This project is ready for a detailed engineering README. Document the problem, requirements, design decisions, debugging process, testing and results in the repository to build out this case study.</p>}</article></div><div className="detail-footer-links"><a className="text-link" href={project.primaryUrl || project.githubUrl} target="_blank" rel="noreferrer">{project.primaryLabel || 'View on GitHub'} <span>↗</span></a>{project.linkedinUrl && <a className="text-link" href={project.linkedinUrl} target="_blank" rel="noreferrer">View on LinkedIn <span>↗</span></a>}</div></div></main>;
 }
 
 function ProjectLoading() {
