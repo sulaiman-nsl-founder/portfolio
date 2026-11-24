@@ -66,17 +66,6 @@ export const LEGACY_PROJECTS = [
     ],
   }),
   project({
-    slug: 'smart-bird-bowl-with-camera',
-    title: 'Smart Bird Bowl with Camera',
-    description: 'An extension of the connected pet-product platform adding camera sensing, IoT connectivity and a purpose-built mechanical structure.',
-    topics: ['ESP32', 'Camera', 'IoT', '3D Printing'],
-    year: 2025,
-    sections: [
-      { heading: 'Project overview', body: 'Extended the smart pet product concept into a bird-feeding application with camera support, sensors, cloud connectivity and a 3D-printed mechanical structure.' },
-      { heading: 'Engineering scope', body: '- ESP32 embedded control\n- Camera and sensor integration\n- IoT connectivity\n- Product-oriented mechanical design' },
-    ],
-  }),
-  project({
     slug: 'robotic-arm-pos-system',
     title: 'Robotic Arm POS System',
     description: 'An automation prototype integrating a robotic arm, POS interface and contactless temperature sensing.',

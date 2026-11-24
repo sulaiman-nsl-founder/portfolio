@@ -152,7 +152,7 @@ export async function discoverProjects() {
     throw error;
   }
   if (!Array.isArray(repositories)) return [];
-  const publicRepos = repositories.filter((repo) => !repo.fork && !repo.archived && repo.name.toLowerCase() !== 'portfolio');
+  const publicRepos = repositories.filter((repo) => !repo.fork && !repo.archived && !['portfolio', 'smart-bird-bowl-with-camera'].includes(repo.name.toLowerCase()));
   const projects = await Promise.all(publicRepos.map(async (repo) => {
     const [readme, portfolio] = await Promise.all([fetchReadme(repo), fetchPortfolio(repo)]);
     if (!portfolio.exists && !hasPortfolioMarker(readme)) return knownProjectFallbacks[repo.name] || null;

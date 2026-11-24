@@ -166,7 +166,7 @@ function Home({ projects }) {
     'smart-pet-activity-tracking-collar',
     'nrf54l15-e-paper-watch',
     'smart-pet-bowl',
-    'smart-bird-bowl-with-camera',
+    'robotic-arm-pos-system',
   ];
   const flagshipProjects = flagshipSlugs.map((slug) => projects.find((project) => project.slug === slug)).filter(Boolean);
   const flagshipSet = new Set(flagshipProjects.map((project) => project.slug));
